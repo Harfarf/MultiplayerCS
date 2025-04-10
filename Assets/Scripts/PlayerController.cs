@@ -27,31 +27,35 @@ public class PlayerController : NetworkBehaviour
         characterController = GetComponent<CharacterController>();
         lifeUI = GetComponentInChildren<TextMeshProUGUI>();
 
-        if (IsOwner)
+        if (IsOwner) //Indica si el jugador es el propietario del objeto en la red, es decir, si tiene control sobre él
         {
             InitializeVariablesServerRpc();
         }
-        
+
+        GetComponent<MeshRenderer>().material.color = PlayerColor.Value;
+        PlayerColor.OnValueChanged += (oldColor, newColor) =>
+        {
+            GetComponent<MeshRenderer>().material.color = newColor;
+        };
     }
 
-    [ServerRpc] // Remote Procedure Call (llamada a procedimiento remoto)
+
+    [ServerRpc]
     private void InitializeVariablesServerRpc(ServerRpcParams rpcParams = default)
     {
         Life.Value = 100; //Las Network variables deben ser modificadas/inicializadas en el servidor
         PlayerColor.Value = new Color(Random.Range(0, .5f), Random.Range(0, .5f), Random.Range(0, .5f), .6f);
     }
 
+
     void Update()
     {
-
-        GetComponent<MeshRenderer>().material.color = PlayerColor.Value;
-
         // Life UI
         lifeUI.text = Life.Value.ToString();
         lifeUI.color = IsLocalPlayer ? Color.green : Color.red;
         lifeUI.transform.LookAt(GameObject.FindObjectOfType<Camera>().transform);
 
-        if (IsLocalPlayer)
+        if (IsLocalPlayer) //Indica si el jugador actual es el jugador local que está ejecutando el código en su propia máquina.
         {
             // MOVEMENT
             float ejeH = Input.GetAxis("Horizontal");
@@ -66,7 +70,8 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    //---------------------------------------------- MOVEMENT
+    [ServerRpc] // Remote Procedure Call (llamada a procedimiento remoto)
     private void PlayerMoveServerRpc(float ejeH, float ejeV, ServerRpcParams rpcParams = default)
     {
         Vector3 move = new Vector3(ejeH, 0, ejeV);
@@ -79,6 +84,7 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    //---------------------------------------------- SHOOTING
     [ServerRpc]
     private void ShootServerRpc(ServerRpcParams rpcParams = default)
     {
@@ -88,6 +94,7 @@ public class PlayerController : NetworkBehaviour
         Destroy(bullet, 2f);
     }
 
+    //---------------------------------------------- LIFE
     [ServerRpc]
     private void UpdatePlayerLifeServerRpc(float number, ServerRpcParams rpcParams = default)
     {
@@ -103,11 +110,6 @@ public class PlayerController : NetworkBehaviour
         {
             other.gameObject.SetActive(false);
             if (IsLocalPlayer) UpdatePlayerLifeServerRpc(-1);
-        }
-        else if (other.transform.CompareTag("Pickup"))
-        {
-            other.gameObject.SetActive(false);
-            if (IsLocalPlayer) UpdatePlayerLifeServerRpc(+1);
         }
     }
 }
