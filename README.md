@@ -63,7 +63,7 @@ MultiplayerCS/
 ---
 
 <p align="center">
-  Made with ❤️ and <b>Unity</b>
+  Made with <b>Unity</b>
   <br/>
   <sub>Learning • Building • Connecting</sub>
 </p>
