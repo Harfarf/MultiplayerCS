@@ -7,9 +7,9 @@
 </p>
 
 <p align="center">
-  ![Unity](https://img.shields.io/badge/Engine-Unity-black?style=for-the-badge&logo=unity)
-  ![CSharp](https://img.shields.io/badge/Language-C%23-68217A?style=for-the-badge&logo=csharp)
-  ![Networking](https://img.shields.io/badge/Focus-Multiplayer-0078D7?style=for-the-badge)
+  <img src="https://img.shields.io/badge/Engine-Unity-black?style=for-the-badge&logo=unity" />
+  <img src="https://img.shields.io/badge/Language-C%23-68217A?style=for-the-badge&logo=csharp" />
+  <img src="https://img.shields.io/badge/Focus-Multiplayer-0078D7?style=for-the-badge" />
 </p>
 
 ---
