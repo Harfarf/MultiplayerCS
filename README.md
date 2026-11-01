@@ -25,7 +25,7 @@ The goal is to understand how multiplayer games establish connections, communica
 | Technology | Purpose |
 |:---:|---|
 | 🎮 **Unity** | Game engine and development environment |
-| 💜 **C#** | Scripting and application logic |
+| 💻 **C#** | Scripting and application logic |
 | 🌐 **Client-Server Architecture** | Multiplayer communication |
 
 ## 📦 Getting Started
